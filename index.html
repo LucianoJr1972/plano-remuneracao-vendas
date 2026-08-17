@@ -153,60 +153,9 @@
     .grid-2, .grid-3, .example-grid{ grid-template-columns:1fr; }
   }
 
-  .shell{ display:none; }
-  #authGate{ position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; align-items:center; justify-content:center; padding:1.5rem; }
-  #authGate .authbox{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:2rem 2.2rem; max-width:22rem; width:100%; box-shadow:var(--shadow); }
-  #authGate h2{ margin:0.2rem 0 0.3rem; }
-  #authGate .authsub{ color:var(--ink-soft); font-size:0.88rem; margin:0 0 1.1rem; }
-  #authGate input[type="password"]{
-    width:100%; font-family:"SF Mono","Cascadia Mono",Consolas,Menlo,monospace; font-size:1rem;
-    padding:0.6rem 0.7rem; border:1px solid var(--line); border-radius:6px;
-    background:var(--bg); color:var(--ink); margin:0 0 0.9rem; outline:none;
-  }
-  #authGate input[type="password"]:focus{ border-color:var(--accent); }
-  #authGate button{
-    width:100%; padding:0.65rem; border:none; border-radius:6px;
-    background:var(--accent); color:#fff; font-weight:600; cursor:pointer; font-size:0.95rem;
-  }
-  #authGate button:hover{ background:var(--accent-ink); }
-  #authError{ color:var(--accent-ink); font-size:0.84rem; margin:-0.4rem 0 0.9rem; display:none; }
 </style>
 </head>
 <body>
-<div id="authGate">
-  <div class="authbox">
-    <p class="eyebrow">Acesso restrito</p>
-    <h2 class="display">Plano de Remuneração</h2>
-    <p class="authsub">Digite a senha de acesso para continuar.</p>
-    <form id="authForm">
-      <input type="password" id="authPass" placeholder="Senha" autocomplete="off" required>
-      <p id="authError">Senha incorreta. Tente novamente.</p>
-      <button type="submit">Entrar</button>
-    </form>
-  </div>
-</div>
-<script>
-(function(){
-  var PASS = 'Mais2027@';
-  var gate = document.getElementById('authGate');
-  var shellEl = document.querySelector('.shell');
-  function unlock(){
-    gate.style.display = 'none';
-    shellEl.style.display = 'block';
-  }
-  if (sessionStorage.getItem('planAuthed') === '1') { unlock(); }
-  document.getElementById('authForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var val = document.getElementById('authPass').value;
-    if (val === PASS) {
-      sessionStorage.setItem('planAuthed', '1');
-      unlock();
-    } else {
-      document.getElementById('authError').style.display = 'block';
-    }
-  });
-})();
-</script>
 <div class="shell">
   <main>
 
