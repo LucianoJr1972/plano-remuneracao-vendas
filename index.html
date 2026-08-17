@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano de Remuneração — Consultor(a) de Vendas Externas</title>
+<style>
+  :root{
+    --bg:#EEF1F3;
+    --surface:#FFFFFF;
+    --surface-alt:#E4E9EC;
+    --ink:#171B1F;
+    --ink-soft:#4B5560;
+    --ink-faint:#7C868E;
+    --line:#C9D2D8;
+    --accent:#B0592E;
+    --accent-ink:#7A3C1D;
+    --accent-soft:#E7D3C4;
+    --track:#D6DCDF;
+    --shadow: 0 1px 2px rgba(23,27,31,0.06), 0 8px 24px rgba(23,27,31,0.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12161B; --surface:#181D23; --surface-alt:#1E252B; --ink:#EDEFF1;
+      --ink-soft:#A7B0B8; --ink-faint:#79828A; --line:#2B333A; --accent:#E08A52;
+      --accent-ink:#F2B78B; --accent-soft:#3A2A1E; --track:#2A3238;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .display{ font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif; text-wrap:balance; }
+  .num{ font-family:"SF Mono","Cascadia Mono",Consolas,Menlo,monospace; font-variant-numeric:tabular-nums; }
+  .eyebrow{ font-size:0.72rem; letter-spacing:0.11em; text-transform:uppercase; color:var(--accent-ink); font-weight:600; }
+
+  .shell{ max-width:960px; margin:0 auto; }
+  main{ min-width:0; }
+  section{ padding:3.4rem clamp(1.4rem,4vw,3.5rem); border-bottom:1px solid var(--line); }
+  section.alt{ background:var(--surface-alt); }
+  section:last-of-type{ border-bottom:none; }
+
+  h1.hero{ font-size:clamp(2rem,4vw,2.9rem); line-height:1.1; margin:0.6rem 0 0.9rem; font-weight:600; }
+  .hero-sub{ color:var(--ink-soft); font-size:1.04rem; max-width:38rem; margin:0 0 2rem; }
+
+  h2{
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    font-size:clamp(1.4rem,2.2vw,1.75rem); margin:0.35rem 0 1.4rem; font-weight:600; text-wrap:balance;
+  }
+  p.lead{ color:var(--ink-soft); max-width:40rem; font-size:1rem; margin:-0.6rem 0 1.7rem; }
+
+  .meta-control{
+    display:flex; align-items:flex-end; gap:0.9rem; flex-wrap:wrap;
+    padding:1.4rem 1.6rem; background:var(--surface); border:1px solid var(--accent);
+    border-radius:10px; margin-bottom:1rem;
+  }
+  .meta-control label{ display:block; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-faint); font-weight:600; margin-bottom:0.4rem; }
+  .meta-field{ display:flex; align-items:baseline; gap:0.5rem; }
+  .meta-field .prefix{ font-family:"SF Mono",Consolas,Menlo,monospace; font-size:1.6rem; color:var(--ink-faint); }
+  #metaInput{
+    font-family:"SF Mono","Cascadia Mono",Consolas,Menlo,monospace;
+    font-size:1.9rem; font-weight:700; color:var(--accent);
+    background:transparent; border:none; border-bottom:2px solid var(--accent);
+    padding:0.1rem 0.2rem; width:min(280px, 55vw); outline:none;
+  }
+  #metaInput:focus{ border-bottom-color:var(--accent-ink); }
+  .meta-hint{ font-size:0.82rem; color:var(--ink-faint); margin:0.9rem 0 0; }
+
+  .quarter-bars{ margin-top:2rem; display:flex; flex-direction:column; gap:0.85rem; max-width:42rem; }
+  .qbar-row{ display:grid; grid-template-columns:3.2rem 1fr 8rem; align-items:center; gap:0.9rem; }
+  .qbar-row .qlabel{ font-weight:600; font-size:0.92rem; }
+  .qbar-track{ height:10px; background:var(--track); border-radius:6px; overflow:hidden; }
+  .qbar-fill{ height:100%; background:var(--accent); border-radius:6px; }
+  .qbar-row .qval{ text-align:right; font-size:0.92rem; color:var(--ink-soft); }
+
+  .grid-2{ display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+  .grid-3{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.3rem; }
+  .comp-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:1.4rem 1.5rem; box-shadow:var(--shadow); }
+  .comp-card .amount{ font-size:1.8rem; font-weight:700; }
+  .comp-card .cond{ color:var(--ink-soft); font-size:0.9rem; margin-top:0.4rem; }
+
+  .fixed-stack{ display:flex; flex-direction:column; gap:0.9rem; max-width:34rem; }
+  .fixed-row{ display:grid; grid-template-columns:1fr 6.5rem; align-items:center; gap:1rem; padding:1rem 1.2rem; background:var(--surface); border:1px solid var(--line); border-radius:8px; }
+  .fixed-row.total{ background:var(--accent-soft); border-color:var(--accent); }
+  .fixed-row .ftitle{ font-weight:600; font-size:0.98rem; }
+  .fixed-row .fcond{ font-size:0.85rem; color:var(--ink-soft); margin-top:0.2rem; }
+  .fixed-row .famt{ text-align:right; font-weight:700; font-size:1.1rem; }
+  .fixed-row.total .famt{ color:var(--accent-ink); font-size:1.25rem; }
+  .plus-sign{ text-align:center; color:var(--ink-faint); font-size:1.1rem; margin:-0.15rem 0; }
+
+  table{ width:100%; border-collapse:collapse; font-size:0.92rem; }
+  .table-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; background:var(--surface); }
+  th, td{ padding:0.8rem 1rem; text-align:left; border-bottom:1px solid var(--line); }
+  thead th{ font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-faint); font-weight:600; }
+  tbody tr:last-child td{ border-bottom:none; }
+  td.rate{ font-weight:700; text-align:right; }
+  td.tot{ text-align:right; }
+  tr.capped td.rate{ color:var(--accent-ink); }
+  .cap-badge{ display:inline-block; margin-left:0.5rem; font-size:0.64rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-faint); border:1px solid var(--line); border-radius:4px; padding:0.1rem 0.4rem; }
+  tfoot td{ font-weight:700; background:var(--surface-alt); border-top:2px solid var(--line); border-bottom:none; }
+
+  .example-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem; margin-top:1.7rem; }
+  .ex-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:1.2rem 1.3rem; display:flex; flex-direction:column; gap:0.5rem; }
+  .ex-card.capped{ border-color:var(--accent); }
+  .ex-card .exlabel{ font-weight:600; font-size:0.9rem; }
+  .ex-card .exrow{ display:flex; justify-content:space-between; gap:0.6rem; font-size:0.82rem; color:var(--ink-soft); }
+  .ex-card .exrow strong{ color:var(--ink); font-weight:600; }
+  .ex-card .exresult{ margin-top:0.3rem; padding-top:0.55rem; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:baseline; }
+  .ex-card .exresult .rlabel{ font-size:0.76rem; color:var(--ink-faint); }
+  .ex-card .exresult .rval{ font-size:1.25rem; font-weight:700; color:var(--accent-ink); }
+  .ex-caption{ font-size:0.8rem; color:var(--ink-faint); margin-top:1rem; max-width:44rem; }
+
+  .stat-card{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:1.5rem; display:flex; flex-direction:column; gap:0.6rem; }
+  .stat-card .satt{ font-size:0.8rem; color:var(--ink-soft); font-weight:600; }
+  .stat-card .stotal{ font-size:1.6rem; font-weight:700; }
+  .stat-card .smonth{ font-size:0.83rem; color:var(--ink-faint); }
+  .stat-card .sbar{ height:8px; border-radius:5px; background:var(--track); overflow:hidden; margin-top:0.2rem; }
+  .stat-card .sbar i{ display:block; height:100%; background:var(--accent); border-radius:5px; }
+  .stat-card.hi{ border-color:var(--accent); }
+
+  .quarter-detail{ margin-top:2.4rem; }
+  .quarter-detail h3{ font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif; font-size:1.1rem; font-weight:600; margin:0 0 0.3rem; }
+  .quarter-detail .qd-sub{ font-size:0.86rem; color:var(--ink-soft); margin:0 0 1.1rem; max-width:44rem; }
+
+  .cashrule{ display:flex; gap:1.3rem; align-items:flex-start; max-width:44rem; padding:1.3rem 1.5rem; background:var(--surface); border:1px solid var(--accent); border-radius:10px; }
+  .cashrule svg{ width:26px; height:26px; stroke:var(--accent); flex:none; margin-top:0.15rem; }
+  .cashrule .ctitle{ font-weight:700; margin-bottom:0.3rem; }
+  .cashrule p{ margin:0; color:var(--ink-soft); font-size:0.92rem; }
+
+  footer.pagefoot{ padding:1.5rem clamp(1.4rem,4vw,3.5rem) 2.6rem; color:var(--ink-faint); font-size:0.78rem; }
+
+  .sales-input{
+    font-family:"SF Mono","Cascadia Mono",Consolas,Menlo,monospace;
+    font-size:0.92rem; font-weight:600; color:var(--ink);
+    background:var(--surface-alt); border:1px solid var(--line); border-radius:6px;
+    padding:0.35rem 0.55rem; width:9.5rem; text-align:right; outline:none;
+  }
+  .sales-input:focus{ border-color:var(--accent); background:var(--surface); }
+  .roadmap-note{
+    display:flex; gap:0.8rem; align-items:flex-start; max-width:44rem;
+    padding:0.9rem 1.1rem; background:var(--surface); border:1px dashed var(--line);
+    border-radius:8px; margin:-0.4rem 0 1.8rem; font-size:0.85rem; color:var(--ink-soft);
+  }
+  .roadmap-note strong{ color:var(--ink); }
+  tr.real-row.over{ box-shadow:inset 3px 0 0 var(--accent); }
+  tr.real-row.over td:nth-child(4){ color:var(--accent-ink); font-weight:700; }
+
+  @media (max-width: 720px){
+    .grid-2, .grid-3, .example-grid{ grid-template-columns:1fr; }
+  }
+
+  .shell{ display:none; }
+  #authGate{ position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; align-items:center; justify-content:center; padding:1.5rem; }
+  #authGate .authbox{ background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:2rem 2.2rem; max-width:22rem; width:100%; box-shadow:var(--shadow); }
+  #authGate h2{ margin:0.2rem 0 0.3rem; }
+  #authGate .authsub{ color:var(--ink-soft); font-size:0.88rem; margin:0 0 1.1rem; }
+  #authGate input[type="password"]{
+    width:100%; font-family:"SF Mono","Cascadia Mono",Consolas,Menlo,monospace; font-size:1rem;
+    padding:0.6rem 0.7rem; border:1px solid var(--line); border-radius:6px;
+    background:var(--bg); color:var(--ink); margin:0 0 0.9rem; outline:none;
+  }
+  #authGate input[type="password"]:focus{ border-color:var(--accent); }
+  #authGate button{
+    width:100%; padding:0.65rem; border:none; border-radius:6px;
+    background:var(--accent); color:#fff; font-weight:600; cursor:pointer; font-size:0.95rem;
+  }
+  #authGate button:hover{ background:var(--accent-ink); }
+  #authError{ color:var(--accent-ink); font-size:0.84rem; margin:-0.4rem 0 0.9rem; display:none; }
+</style>
+</head>
+<body>
+<div id="authGate">
+  <div class="authbox">
+    <p class="eyebrow">Acesso restrito</p>
+    <h2 class="display">Plano de Remuneração</h2>
+    <p class="authsub">Digite a senha de acesso para continuar.</p>
+    <form id="authForm">
+      <input type="password" id="authPass" placeholder="Senha" autocomplete="off" required>
+      <p id="authError">Senha incorreta. Tente novamente.</p>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+</div>
+<script>
+(function(){
+  var PASS = 'Mais2027@';
+  var gate = document.getElementById('authGate');
+  var shellEl = document.querySelector('.shell');
+  function unlock(){
+    gate.style.display = 'none';
+    shellEl.style.display = 'block';
+  }
+  if (sessionStorage.getItem('planAuthed') === '1') { unlock(); }
+  document.getElementById('authForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var val = document.getElementById('authPass').value;
+    if (val === PASS) {
+      sessionStorage.setItem('planAuthed', '1');
+      unlock();
+    } else {
+      document.getElementById('authError').style.display = 'block';
+    }
+  });
+})();
+</script>
+<div class="shell">
+  <main>
+
+    <section id="capa">
+      <p class="eyebrow">MAIS Soluções Industriais</p>
+      <h1 class="hero display">Plano de Remuneração<br>Consultor(a) de Vendas Externas</h1>
+      <p class="hero-sub">Modelo de fixo, benefícios e variável sem teto de comissão base. Informe a meta anual da posição abaixo — todos os valores do plano são recalculados automaticamente.</p>
+
+      <div class="meta-control">
+        <div>
+          <label for="metaInput">Meta anual da posição</label>
+          <div class="meta-field">
+            <span class="prefix num">R$</span>
+            <input type="number" id="metaInput" class="num" value="1000000" min="0" step="10000" inputmode="decimal">
+          </div>
+        </div>
+      </div>
+      <p class="meta-hint">Digite um novo valor para recalcular as metas trimestrais, a comissão, o bônus por superação e o potencial de ganho.</p>
+    </section>
+
+    <section id="oportunidade" class="alt">
+      <p class="eyebrow">01 — Distribuição da Meta</p>
+      <h2>Meta trimestral</h2>
+      <p class="lead">A meta anual é distribuída por trimestre, respeitando a sazonalidade típica do ciclo de compra industrial — mais concentrada no meio do ano.</p>
+      <div class="quarter-bars">
+        <div class="qbar-row"><span class="qlabel">Q1 · 15%</span><span class="qbar-track"><span class="qbar-fill" style="width:15%"></span></span><span class="qval num" id="qval-q1">—</span></div>
+        <div class="qbar-row"><span class="qlabel">Q2 · 30%</span><span class="qbar-track"><span class="qbar-fill" style="width:30%"></span></span><span class="qval num" id="qval-q2">—</span></div>
+        <div class="qbar-row"><span class="qlabel">Q3 · 40%</span><span class="qbar-track"><span class="qbar-fill" style="width:40%"></span></span><span class="qval num" id="qval-q3">—</span></div>
+        <div class="qbar-row"><span class="qlabel">Q4 · 15%</span><span class="qbar-track"><span class="qbar-fill" style="width:15%"></span></span><span class="qval num" id="qval-q4">—</span></div>
+      </div>
+    </section>
+
+    <section id="fixo">
+      <p class="eyebrow">02 — Remuneração Fixa</p>
+      <h2>Fixo mensal de até R$ 7.000</h2>
+      <p class="lead">Um piso garantido, mais dois componentes de atividade ligados à disciplina comercial esperada da posição. Não depende da meta informada acima.</p>
+      <div class="fixed-stack">
+        <div class="fixed-row">
+          <div><div class="ftitle">Piso garantido</div><div class="fcond">Pago integralmente, todo mês</div></div>
+          <div class="famt num">R$ 5.000</div>
+        </div>
+        <div class="plus-sign">+</div>
+        <div class="fixed-row">
+          <div><div class="ftitle">Componente de visitas</div><div class="fcond">20 visitas a clientes/mês</div></div>
+          <div class="famt num">R$ 1.000</div>
+        </div>
+        <div class="plus-sign">+</div>
+        <div class="fixed-row">
+          <div><div class="ftitle">Componente de CRM</div><div class="fcond">10 oportunidades qualificadas registradas/mês</div></div>
+          <div class="famt num">R$ 1.000</div>
+        </div>
+        <div class="plus-sign">=</div>
+        <div class="fixed-row total">
+          <div><div class="ftitle">Fixo total possível</div><div class="fcond">Pagamento proporcional ao cumprimento de cada condição</div></div>
+          <div class="famt num">R$ 7.000</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="comissao" class="alt">
+      <p class="eyebrow">03 — Comissão</p>
+      <h2>1,25% sobre vendas recebidas, todo mês</h2>
+      <p class="lead">Calculada sobre o valor efetivamente recebido dos clientes e paga mensalmente, sem depender do fechamento da meta.</p>
+      <div class="grid-2" style="max-width:42rem;">
+        <div class="comp-card">
+          <div class="cond">Taxa base</div>
+          <div class="amount num">1,25%</div>
+          <div class="cond">Sobre o valor recebido no mês</div>
+        </div>
+        <div class="comp-card">
+          <div class="cond">Frequência de pagamento</div>
+          <div class="amount">Mensal</div>
+          <div class="cond">Sem trava por atingimento de meta</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="bonus">
+      <p class="eyebrow">04 — Bônus por Superação de Meta</p>
+      <h2>Quanto mais se extrapola a meta, maior a taxa</h2>
+      <p class="lead">Apurado ao final de cada trimestre, comparando o total recebido no período com a meta daquele trimestre. Pago uma única vez, no fechamento do trimestre.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Faixa de atingimento da meta trimestral</th><th style="text-align:right;">Taxa de comissão</th></tr></thead>
+          <tbody>
+            <tr><td>Até 100% da meta</td><td class="rate num">1,25%</td></tr>
+            <tr><td>De 100% a 120%</td><td class="rate num">1,50%</td></tr>
+            <tr><td>De 120% a 140%</td><td class="rate num">1,75%</td></tr>
+            <tr class="capped"><td>Acima de 140%<span class="cap-badge">Teto</span></td><td class="rate num">2,00%</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="example-grid">
+        <div class="ex-card">
+          <div class="exlabel">Superação de 100% a 120% da meta</div>
+          <div class="exrow"><span>Excedente nessa faixa</span><strong class="num" id="excAmt1">—</strong></div>
+          <div class="exrow"><span>Taxa aplicada</span><strong class="num">1,50%</strong></div>
+          <div class="exresult"><span class="rlabel">Bônus da faixa</span><span class="rval num" id="exBonus1">—</span></div>
+        </div>
+        <div class="ex-card">
+          <div class="exlabel">Superação de 120% a 140% da meta</div>
+          <div class="exrow"><span>Excedente nessa faixa</span><strong class="num" id="excAmt2">—</strong></div>
+          <div class="exrow"><span>Taxa aplicada</span><strong class="num">1,75%</strong></div>
+          <div class="exresult"><span class="rlabel">Bônus da faixa</span><span class="rval num" id="exBonus2">—</span></div>
+        </div>
+        <div class="ex-card capped">
+          <div class="exlabel">Superação acima de 140% da meta<span class="cap-badge">Teto</span></div>
+          <div class="exrow"><span>Excedente nessa faixa</span><strong class="num" id="excAmt3">—</strong></div>
+          <div class="exrow"><span>Taxa aplicada</span><strong class="num">2,00%</strong></div>
+          <div class="exresult"><span class="rlabel">Bônus da faixa</span><span class="rval num" id="exBonus3">—</span></div>
+        </div>
+      </div>
+      <p class="ex-caption">Exemplos calculados sobre a meta total anual informada (<span class="num" id="metaCaption">—</span>), com cada faixa representando 20 pontos percentuais de superação. Na prática, a apuração é feita a cada trimestre, sobre a meta daquele período — mas a lógica e as taxas são exatamente as mesmas.</p>
+    </section>
+
+    <section id="pagamento" class="alt">
+      <p class="eyebrow">05 — Regra de Pagamento</p>
+      <h2>Comissão e bônus seguem o recebimento do cliente</h2>
+      <div class="cashrule">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <div>
+          <div class="ctitle">O pagamento depende do caixa, não da venda</div>
+          <p>Tanto a comissão mensal quanto o bônus trimestral são calculados sobre o valor que a empresa efetivamente recebeu do cliente — não sobre a data em que a venda foi fechada ou a nota fiscal emitida.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="potencial">
+      <p class="eyebrow">06 — Potencial de Ganho</p>
+      <h2>Projeção anual (fixo + variável)</h2>
+      <p class="lead">Três cenários de desempenho, considerando o mesmo nível de superação em todos os trimestres do ano.</p>
+      <div class="grid-3">
+        <div class="stat-card">
+          <div class="satt">Atingindo 100% da meta</div>
+          <div class="stotal num" id="stat100Total">—</div>
+          <div class="smonth num" id="stat100Month">—</div>
+          <div class="sbar"><i id="stat100Bar" style="width:0%"></i></div>
+        </div>
+        <div class="stat-card">
+          <div class="satt">Superando em 30%</div>
+          <div class="stotal num" id="stat130Total">—</div>
+          <div class="smonth num" id="stat130Month">—</div>
+          <div class="sbar"><i id="stat130Bar" style="width:0%"></i></div>
+        </div>
+        <div class="stat-card hi">
+          <div class="satt">Superando em 80%</div>
+          <div class="stotal num" id="stat180Total">—</div>
+          <div class="smonth num" id="stat180Month">—</div>
+          <div class="sbar"><i id="stat180Bar" style="width:0%"></i></div>
+        </div>
+      </div>
+
+      <div class="quarter-detail">
+        <h3>Detalhamento por trimestre — cenário de 40% acima da meta</h3>
+        <p class="qd-sub">Considerando 140% de atingimento em todos os trimestres e cumprimento integral do fixo (20 visitas + 10 oportunidades qualificadas por mês).</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Trimestre</th>
+                <th style="text-align:right;">Meta</th>
+                <th style="text-align:right;">Fixo</th>
+                <th style="text-align:right;">Comissão base</th>
+                <th style="text-align:right;">Bônus</th>
+                <th style="text-align:right;">Comissão total</th>
+                <th style="text-align:right;">Total do trimestre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Q1</td>
+                <td class="tot num" id="q1Target">—</td>
+                <td class="tot num" id="q1Fixed">—</td>
+                <td class="tot num" id="q1Base">—</td>
+                <td class="tot num" id="q1Bonus">—</td>
+                <td class="tot num" id="q1CommTotal">—</td>
+                <td class="tot num"><strong id="q1RowTotal">—</strong></td>
+              </tr>
+              <tr>
+                <td>Q2</td>
+                <td class="tot num" id="q2Target">—</td>
+                <td class="tot num" id="q2Fixed">—</td>
+                <td class="tot num" id="q2Base">—</td>
+                <td class="tot num" id="q2Bonus">—</td>
+                <td class="tot num" id="q2CommTotal">—</td>
+                <td class="tot num"><strong id="q2RowTotal">—</strong></td>
+              </tr>
+              <tr>
+                <td>Q3</td>
+                <td class="tot num" id="q3Target">—</td>
+                <td class="tot num" id="q3Fixed">—</td>
+                <td class="tot num" id="q3Base">—</td>
+                <td class="tot num" id="q3Bonus">—</td>
+                <td class="tot num" id="q3CommTotal">—</td>
+                <td class="tot num"><strong id="q3RowTotal">—</strong></td>
+              </tr>
+              <tr>
+                <td>Q4</td>
+                <td class="tot num" id="q4Target">—</td>
+                <td class="tot num" id="q4Fixed">—</td>
+                <td class="tot num" id="q4Base">—</td>
+                <td class="tot num" id="q4Bonus">—</td>
+                <td class="tot num" id="q4CommTotal">—</td>
+                <td class="tot num"><strong id="q4RowTotal">—</strong></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>Total ano</td>
+                <td class="tot num" id="fTarget">—</td>
+                <td class="tot num" id="fFixed">—</td>
+                <td class="tot num" id="fBase">—</td>
+                <td class="tot num" id="fBonus">—</td>
+                <td class="tot num" id="fCommTotal">—</td>
+                <td class="tot num" id="fRowTotal">—</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="apuracao" class="alt">
+      <p class="eyebrow">07 — Lançamento de Vendas Mensais</p>
+      <h2>Apuração real da comissão</h2>
+      <p class="lead">Lance o valor recebido de clientes em cada mês para calcular a comissão e o bônus reais — a apuração trimestral abaixo é recalculada automaticamente.</p>
+      <div class="roadmap-note">
+        <span>🔄</span>
+        <span><strong>Hoje:</strong> lançamento manual, mês a mês. <strong>Depois da migração para o Sankhya:</strong> este valor poderá ser importado automaticamente via API, sem lançamento manual.</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Mês</th><th style="text-align:right;">Vendas recebidas</th><th style="text-align:right;">Comissão base (1,25%)</th><th style="text-align:right;">Fixo</th><th style="text-align:right;">Total do mês</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Janeiro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="1" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m1">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m1">—</td></tr>
+            <tr><td>Fevereiro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="2" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m2">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m2">—</td></tr>
+            <tr><td>Março</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="3" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m3">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m3">—</td></tr>
+            <tr><td>Abril</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="4" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m4">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m4">—</td></tr>
+            <tr><td>Maio</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="5" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m5">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m5">—</td></tr>
+            <tr><td>Junho</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="6" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m6">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m6">—</td></tr>
+            <tr><td>Julho</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="7" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m7">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m7">—</td></tr>
+            <tr><td>Agosto</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="8" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m8">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m8">—</td></tr>
+            <tr><td>Setembro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="9" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m9">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m9">—</td></tr>
+            <tr><td>Outubro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="10" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m10">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m10">—</td></tr>
+            <tr><td>Novembro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="11" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m11">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m11">—</td></tr>
+            <tr><td>Dezembro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="12" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m12">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m12">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="quarter-detail">
+        <h3>Resumo trimestral (calculado a partir dos lançamentos)</h3>
+        <p class="qd-sub">Atingimento medido contra a meta trimestral definida na capa. Faixas destacadas indicam superação de meta (bônus aplicado).</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Trimestre</th>
+                <th style="text-align:right;">Meta</th>
+                <th style="text-align:right;">Recebido</th>
+                <th style="text-align:right;">% Atingido</th>
+                <th style="text-align:right;">Fixo</th>
+                <th style="text-align:right;">Comissão base</th>
+                <th style="text-align:right;">Bônus</th>
+                <th style="text-align:right;">Total do trimestre</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="real-row" id="realRowQ1">
+                <td>Q1</td>
+                <td class="tot num" id="real-q1-target">—</td>
+                <td class="tot num" id="real-q1-received">—</td>
+                <td class="tot num" id="real-q1-att">—</td>
+                <td class="tot num" id="real-q1-fixed">—</td>
+                <td class="tot num" id="real-q1-base">—</td>
+                <td class="tot num" id="real-q1-bonus">—</td>
+                <td class="tot num"><strong id="real-q1-total">—</strong></td>
+              </tr>
+              <tr class="real-row" id="realRowQ2">
+                <td>Q2</td>
+                <td class="tot num" id="real-q2-target">—</td>
+                <td class="tot num" id="real-q2-received">—</td>
+                <td class="tot num" id="real-q2-att">—</td>
+                <td class="tot num" id="real-q2-fixed">—</td>
+                <td class="tot num" id="real-q2-base">—</td>
+                <td class="tot num" id="real-q2-bonus">—</td>
+                <td class="tot num"><strong id="real-q2-total">—</strong></td>
+              </tr>
+              <tr class="real-row" id="realRowQ3">
+                <td>Q3</td>
+                <td class="tot num" id="real-q3-target">—</td>
+                <td class="tot num" id="real-q3-received">—</td>
+                <td class="tot num" id="real-q3-att">—</td>
+                <td class="tot num" id="real-q3-fixed">—</td>
+                <td class="tot num" id="real-q3-base">—</td>
+                <td class="tot num" id="real-q3-bonus">—</td>
+                <td class="tot num"><strong id="real-q3-total">—</strong></td>
+              </tr>
+              <tr class="real-row" id="realRowQ4">
+                <td>Q4</td>
+                <td class="tot num" id="real-q4-target">—</td>
+                <td class="tot num" id="real-q4-received">—</td>
+                <td class="tot num" id="real-q4-att">—</td>
+                <td class="tot num" id="real-q4-fixed">—</td>
+                <td class="tot num" id="real-q4-base">—</td>
+                <td class="tot num" id="real-q4-bonus">—</td>
+                <td class="tot num"><strong id="real-q4-total">—</strong></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>Total ano</td>
+                <td class="tot num" id="real-f-target">—</td>
+                <td class="tot num" id="real-f-received">—</td>
+                <td class="tot num" id="real-f-att">—</td>
+                <td class="tot num" id="real-f-fixed">—</td>
+                <td class="tot num" id="real-f-base">—</td>
+                <td class="tot num" id="real-f-bonus">—</td>
+                <td class="tot num" id="real-f-total">—</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer class="pagefoot">MAIS Soluções Industriais S/A · Plano de remuneração dinâmico — documento interno para simulação, sujeito a ajustes antes da formalização.</footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  var QUARTER_WEIGHTS = [0.15, 0.30, 0.40, 0.15];
+  var FIXED_MONTHLY = 7000;
+  var FIXED_QUARTER = FIXED_MONTHLY * 3;
+  var FIXED_ANNUAL = FIXED_MONTHLY * 12;
+  var BASE_RATE = 0.0125;
+  var BANDS = [
+    { width: 0.2, rate: 0.015 },
+    { width: 0.2, rate: 0.0175 },
+    { width: Infinity, rate: 0.02 }
+  ];
+
+  var fmt0 = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  var fmt2 = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  function commissionForTarget(target, attainment) {
+    if (attainment <= 1) return target * attainment * BASE_RATE;
+    var commission = target * BASE_RATE;
+    var excess = (attainment - 1) * target;
+    for (var i = 0; i < BANDS.length; i++) {
+      var band = BANDS[i];
+      var bandAmt = band.width === Infinity ? excess : Math.min(excess, band.width * target);
+      commission += bandAmt * band.rate;
+      excess -= bandAmt;
+      if (excess <= 0) break;
+    }
+    return commission;
+  }
+
+  function set(id, text) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+
+  function render() {
+    var raw = Number(document.getElementById('metaInput').value);
+    var meta = isFinite(raw) && raw > 0 ? raw : 0;
+
+    var qTargets = QUARTER_WEIGHTS.map(function (w) { return w * meta; });
+    set('qval-q1', fmt0.format(qTargets[0]));
+    set('qval-q2', fmt0.format(qTargets[1]));
+    set('qval-q3', fmt0.format(qTargets[2]));
+    set('qval-q4', fmt0.format(qTargets[3]));
+
+    var bandExcess = 0.2 * meta;
+    set('excAmt1', fmt0.format(bandExcess));
+    set('excAmt2', fmt0.format(bandExcess));
+    set('excAmt3', fmt0.format(bandExcess));
+    set('exBonus1', fmt0.format(bandExcess * 0.015));
+    set('exBonus2', fmt0.format(bandExcess * 0.0175));
+    set('exBonus3', fmt0.format(bandExcess * 0.02));
+    set('metaCaption', fmt0.format(meta));
+
+    var scenarios = [1.0, 1.3, 1.8];
+    var totals = scenarios.map(function (r) { return FIXED_ANNUAL + commissionForTarget(meta, r); });
+    var maxTotal = Math.max.apply(null, totals) || 1;
+    var keys = ['stat100', 'stat130', 'stat180'];
+    keys.forEach(function (key, i) {
+      set(key + 'Total', fmt0.format(totals[i]));
+      set(key + 'Month', '≈ ' + fmt0.format(totals[i] / 12) + '/mês');
+      var bar = document.getElementById(key + 'Bar');
+      if (bar) bar.style.width = (totals[i] / maxTotal * 100).toFixed(1) + '%';
+    });
+
+    var qKeys = ['q1', 'q2', 'q3', 'q4'];
+    var sums = { target: 0, fixed: 0, base: 0, bonus: 0, commTotal: 0, rowTotal: 0 };
+    qKeys.forEach(function (key, i) {
+      var target = qTargets[i];
+      var base = target * BASE_RATE;
+      var commTotal = commissionForTarget(target, 1.4);
+      var bonus = commTotal - base;
+      var rowTotal = FIXED_QUARTER + commTotal;
+
+      set(key + 'Target', fmt0.format(target));
+      set(key + 'Fixed', fmt0.format(FIXED_QUARTER));
+      set(key + 'Base', fmt2.format(base));
+      set(key + 'Bonus', fmt2.format(bonus));
+      set(key + 'CommTotal', fmt2.format(commTotal));
+      set(key + 'RowTotal', fmt2.format(rowTotal));
+
+      sums.target += target;
+      sums.fixed += FIXED_QUARTER;
+      sums.base += base;
+      sums.bonus += bonus;
+      sums.commTotal += commTotal;
+      sums.rowTotal += rowTotal;
+    });
+    set('fTarget', fmt0.format(sums.target));
+    set('fFixed', fmt0.format(sums.fixed));
+    set('fBase', fmt2.format(sums.base));
+    set('fBonus', fmt2.format(sums.bonus));
+    set('fCommTotal', fmt2.format(sums.commTotal));
+    set('fRowTotal', fmt2.format(sums.rowTotal));
+
+    var monthSales = [];
+    for (var m = 1; m <= 12; m++) {
+      var input = document.querySelector('.sales-input[data-month="' + m + '"]');
+      var v = input ? Number(input.value) : 0;
+      monthSales.push(isFinite(v) && v > 0 ? v : 0);
+    }
+    monthSales.forEach(function (sales, idx) {
+      var base = sales * BASE_RATE;
+      var total = base + FIXED_MONTHLY;
+      set('base-m' + (idx + 1), fmt2.format(base));
+      set('total-m' + (idx + 1), fmt2.format(total));
+    });
+
+    var quarterMonthGroups = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]];
+    var realSums = { target: 0, received: 0, fixed: 0, base: 0, bonus: 0, total: 0 };
+    quarterMonthGroups.forEach(function (group, qi) {
+      var qKey = 'q' + (qi + 1);
+      var target = qTargets[qi];
+      var received = group.reduce(function (acc, mi) { return acc + monthSales[mi]; }, 0);
+      var attainment = target > 0 ? received / target : 0;
+      var base = received * BASE_RATE;
+      var commTotal = commissionForTarget(target, attainment);
+      var bonus = Math.max(0, commTotal - base);
+      var fixed = FIXED_QUARTER;
+      var total = fixed + base + bonus;
+
+      set('real-' + qKey + '-target', fmt0.format(target));
+      set('real-' + qKey + '-received', fmt0.format(received));
+      set('real-' + qKey + '-att', (attainment * 100).toFixed(1) + '%');
+      set('real-' + qKey + '-fixed', fmt0.format(fixed));
+      set('real-' + qKey + '-base', fmt2.format(base));
+      set('real-' + qKey + '-bonus', fmt2.format(bonus));
+      set('real-' + qKey + '-total', fmt2.format(total));
+
+      var row = document.getElementById('realRowQ' + (qi + 1));
+      if (row) row.classList.toggle('over', attainment > 1);
+
+      realSums.target += target;
+      realSums.received += received;
+      realSums.fixed += fixed;
+      realSums.base += base;
+      realSums.bonus += bonus;
+      realSums.total += total;
+    });
+    set('real-f-target', fmt0.format(realSums.target));
+    set('real-f-received', fmt0.format(realSums.received));
+    set('real-f-att', realSums.target > 0 ? ((realSums.received / realSums.target) * 100).toFixed(1) + '%' : '—');
+    set('real-f-fixed', fmt0.format(realSums.fixed));
+    set('real-f-base', fmt2.format(realSums.base));
+    set('real-f-bonus', fmt2.format(realSums.bonus));
+    set('real-f-total', fmt2.format(realSums.total));
+  }
+
+  document.getElementById('metaInput').addEventListener('input', render);
+  document.querySelectorAll('.sales-input').forEach(function (el) {
+    el.addEventListener('input', render);
+  });
+  render();
+})();
+</script>
+</body>
+</html>
