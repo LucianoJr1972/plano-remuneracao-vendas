@@ -38,7 +38,7 @@
   .num{ font-family:"SF Mono","Cascadia Mono",Consolas,Menlo,monospace; font-variant-numeric:tabular-nums; }
   .eyebrow{ font-size:0.72rem; letter-spacing:0.11em; text-transform:uppercase; color:var(--accent-ink); font-weight:600; }
 
-  .shell{ max-width:960px; margin:0 auto; }
+  .shell{ max-width:1160px; margin:0 auto; }
   main{ min-width:0; }
   section{ padding:3.4rem clamp(1.4rem,4vw,3.5rem); border-bottom:1px solid var(--line); }
   section.alt{ background:var(--surface-alt); }
@@ -135,9 +135,9 @@
 
   .sales-input{
     font-family:"SF Mono","Cascadia Mono",Consolas,Menlo,monospace;
-    font-size:0.92rem; font-weight:600; color:var(--ink);
+    font-weight:600; color:var(--ink);
     background:var(--surface-alt); border:1px solid var(--line); border-radius:6px;
-    padding:0.35rem 0.55rem; width:9.5rem; text-align:right; outline:none;
+    outline:none;
   }
   .sales-input:focus{ border-color:var(--accent); background:var(--surface); }
   .roadmap-note{
@@ -146,11 +146,35 @@
     border-radius:8px; margin:-0.4rem 0 1.8rem; font-size:0.85rem; color:var(--ink-soft);
   }
   .roadmap-note strong{ color:var(--ink); }
-  tr.real-row.over{ box-shadow:inset 3px 0 0 var(--accent); }
-  tr.real-row.over td:nth-child(4){ color:var(--accent-ink); font-weight:700; }
 
+  .qcard-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:1.8rem; }
+  .qcard{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:0.8rem; }
+  .qcard.over{ border-color:var(--accent); box-shadow:0 0 0 1px var(--accent); }
+  .qcard-head{ display:flex; justify-content:space-between; align-items:baseline; gap:0.5rem; padding-bottom:0.7rem; border-bottom:1px solid var(--line); }
+  .qcard-head .qname{ font-weight:700; font-size:1.05rem; }
+  .qcard-head .qmeta{ font-size:0.72rem; color:var(--ink-faint); text-align:right; }
+  .qcard-months{ display:flex; flex-direction:column; gap:0.5rem; }
+  .qmonth{ display:flex; align-items:center; gap:0.6rem; }
+  .qmonth .mlabel{ font-size:0.78rem; color:var(--ink-soft); width:2.2rem; flex:none; }
+  .qmonth .sales-input{ flex:1; min-width:0; font-size:0.85rem; padding:0.35rem 0.5rem; text-align:right; }
+  .qcard-summary{ display:flex; flex-direction:column; gap:0.4rem; padding-top:0.7rem; border-top:1px dashed var(--line); }
+  .qrow{ display:flex; justify-content:space-between; align-items:baseline; gap:0.5rem; font-size:0.8rem; color:var(--ink-soft); }
+  .qrow strong{ color:var(--ink); font-weight:600; font-size:0.85rem; }
+  .qrow.total{ margin-top:0.15rem; padding-top:0.55rem; border-top:1px solid var(--line); }
+  .qrow.total strong{ font-size:1.05rem; color:var(--accent-ink); }
+  .qbadge{ font-size:0.62rem; text-transform:uppercase; letter-spacing:0.04em; color:var(--accent-ink); background:var(--accent-soft); border-radius:4px; padding:0.1rem 0.4rem; margin-left:0.4rem; white-space:nowrap; }
+
+  .annual-strip{ display:flex; flex-wrap:wrap; gap:1.5rem 2.2rem; margin-top:1.4rem; padding:1.2rem 1.4rem; background:var(--accent-soft); border:1px solid var(--accent); border-radius:10px; }
+  .annual-strip .astat{ display:flex; flex-direction:column; gap:0.2rem; }
+  .annual-strip .astat .alabel{ font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--accent-ink); }
+  .annual-strip .astat .aval{ font-size:1.1rem; font-weight:700; }
+
+  @media (max-width: 980px){
+    .qcard-grid{ grid-template-columns:repeat(2,1fr); }
+  }
   @media (max-width: 720px){
     .grid-2, .grid-3, .example-grid{ grid-template-columns:1fr; }
+    .qcard-grid{ grid-template-columns:1fr; }
   }
 
 </style>
@@ -312,69 +336,50 @@
       <div class="quarter-detail">
         <h3>Detalhamento por trimestre — cenário de 40% acima da meta</h3>
         <p class="qd-sub">Considerando 140% de atingimento em todos os trimestres e cumprimento integral do fixo (20 visitas + 10 oportunidades qualificadas por mês).</p>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Trimestre</th>
-                <th style="text-align:right;">Meta</th>
-                <th style="text-align:right;">Fixo</th>
-                <th style="text-align:right;">Comissão base</th>
-                <th style="text-align:right;">Bônus</th>
-                <th style="text-align:right;">Comissão total</th>
-                <th style="text-align:right;">Total do trimestre</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Q1</td>
-                <td class="tot num" id="q1Target">—</td>
-                <td class="tot num" id="q1Fixed">—</td>
-                <td class="tot num" id="q1Base">—</td>
-                <td class="tot num" id="q1Bonus">—</td>
-                <td class="tot num" id="q1CommTotal">—</td>
-                <td class="tot num"><strong id="q1RowTotal">—</strong></td>
-              </tr>
-              <tr>
-                <td>Q2</td>
-                <td class="tot num" id="q2Target">—</td>
-                <td class="tot num" id="q2Fixed">—</td>
-                <td class="tot num" id="q2Base">—</td>
-                <td class="tot num" id="q2Bonus">—</td>
-                <td class="tot num" id="q2CommTotal">—</td>
-                <td class="tot num"><strong id="q2RowTotal">—</strong></td>
-              </tr>
-              <tr>
-                <td>Q3</td>
-                <td class="tot num" id="q3Target">—</td>
-                <td class="tot num" id="q3Fixed">—</td>
-                <td class="tot num" id="q3Base">—</td>
-                <td class="tot num" id="q3Bonus">—</td>
-                <td class="tot num" id="q3CommTotal">—</td>
-                <td class="tot num"><strong id="q3RowTotal">—</strong></td>
-              </tr>
-              <tr>
-                <td>Q4</td>
-                <td class="tot num" id="q4Target">—</td>
-                <td class="tot num" id="q4Fixed">—</td>
-                <td class="tot num" id="q4Base">—</td>
-                <td class="tot num" id="q4Bonus">—</td>
-                <td class="tot num" id="q4CommTotal">—</td>
-                <td class="tot num"><strong id="q4RowTotal">—</strong></td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td>Total ano</td>
-                <td class="tot num" id="fTarget">—</td>
-                <td class="tot num" id="fFixed">—</td>
-                <td class="tot num" id="fBase">—</td>
-                <td class="tot num" id="fBonus">—</td>
-                <td class="tot num" id="fCommTotal">—</td>
-                <td class="tot num" id="fRowTotal">—</td>
-              </tr>
-            </tfoot>
-          </table>
+        <div class="qcard-grid">
+          <div class="qcard">
+            <div class="qcard-head"><span class="qname">Q1</span><span class="qmeta">Meta<br><strong class="num" id="q1Target">—</strong></span></div>
+            <div class="qcard-summary" style="border-top:none; padding-top:0;">
+              <div class="qrow"><span>Fixo</span><strong class="num" id="q1Fixed">—</strong></div>
+              <div class="qrow"><span>Comissão base</span><strong class="num" id="q1Base">—</strong></div>
+              <div class="qrow"><span>Bônus</span><strong class="num" id="q1Bonus">—</strong></div>
+              <div class="qrow total"><span>Total do trimestre</span><strong class="num" id="q1RowTotal">—</strong></div>
+            </div>
+          </div>
+          <div class="qcard">
+            <div class="qcard-head"><span class="qname">Q2</span><span class="qmeta">Meta<br><strong class="num" id="q2Target">—</strong></span></div>
+            <div class="qcard-summary" style="border-top:none; padding-top:0;">
+              <div class="qrow"><span>Fixo</span><strong class="num" id="q2Fixed">—</strong></div>
+              <div class="qrow"><span>Comissão base</span><strong class="num" id="q2Base">—</strong></div>
+              <div class="qrow"><span>Bônus</span><strong class="num" id="q2Bonus">—</strong></div>
+              <div class="qrow total"><span>Total do trimestre</span><strong class="num" id="q2RowTotal">—</strong></div>
+            </div>
+          </div>
+          <div class="qcard">
+            <div class="qcard-head"><span class="qname">Q3</span><span class="qmeta">Meta<br><strong class="num" id="q3Target">—</strong></span></div>
+            <div class="qcard-summary" style="border-top:none; padding-top:0;">
+              <div class="qrow"><span>Fixo</span><strong class="num" id="q3Fixed">—</strong></div>
+              <div class="qrow"><span>Comissão base</span><strong class="num" id="q3Base">—</strong></div>
+              <div class="qrow"><span>Bônus</span><strong class="num" id="q3Bonus">—</strong></div>
+              <div class="qrow total"><span>Total do trimestre</span><strong class="num" id="q3RowTotal">—</strong></div>
+            </div>
+          </div>
+          <div class="qcard">
+            <div class="qcard-head"><span class="qname">Q4</span><span class="qmeta">Meta<br><strong class="num" id="q4Target">—</strong></span></div>
+            <div class="qcard-summary" style="border-top:none; padding-top:0;">
+              <div class="qrow"><span>Fixo</span><strong class="num" id="q4Fixed">—</strong></div>
+              <div class="qrow"><span>Comissão base</span><strong class="num" id="q4Base">—</strong></div>
+              <div class="qrow"><span>Bônus</span><strong class="num" id="q4Bonus">—</strong></div>
+              <div class="qrow total"><span>Total do trimestre</span><strong class="num" id="q4RowTotal">—</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="annual-strip">
+          <div class="astat"><span class="alabel">Meta anual</span><span class="aval num" id="fTarget">—</span></div>
+          <div class="astat"><span class="alabel">Fixo anual</span><span class="aval num" id="fFixed">—</span></div>
+          <div class="astat"><span class="alabel">Comissão base</span><span class="aval num" id="fBase">—</span></div>
+          <div class="astat"><span class="alabel">Bônus</span><span class="aval num" id="fBonus">—</span></div>
+          <div class="astat"><span class="alabel">Total do ano</span><span class="aval num" id="fRowTotal">—</span></div>
         </div>
       </div>
     </section>
@@ -388,101 +393,80 @@
         <span><strong>Hoje:</strong> lançamento manual, mês a mês. <strong>Depois da migração para o Sankhya:</strong> este valor poderá ser importado automaticamente via API, sem lançamento manual.</span>
       </div>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>Mês</th><th style="text-align:right;">Vendas recebidas</th><th style="text-align:right;">Comissão base (1,25%)</th><th style="text-align:right;">Fixo</th><th style="text-align:right;">Total do mês</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Janeiro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="1" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m1">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m1">—</td></tr>
-            <tr><td>Fevereiro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="2" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m2">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m2">—</td></tr>
-            <tr><td>Março</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="3" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m3">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m3">—</td></tr>
-            <tr><td>Abril</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="4" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m4">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m4">—</td></tr>
-            <tr><td>Maio</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="5" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m5">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m5">—</td></tr>
-            <tr><td>Junho</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="6" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m6">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m6">—</td></tr>
-            <tr><td>Julho</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="7" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m7">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m7">—</td></tr>
-            <tr><td>Agosto</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="8" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m8">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m8">—</td></tr>
-            <tr><td>Setembro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="9" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m9">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m9">—</td></tr>
-            <tr><td>Outubro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="10" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m10">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m10">—</td></tr>
-            <tr><td>Novembro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="11" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m11">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m11">—</td></tr>
-            <tr><td>Dezembro</td><td style="text-align:right;"><input type="number" class="sales-input num" data-month="12" min="0" step="1000" placeholder="0"></td><td class="tot num" id="base-m12">—</td><td class="tot num">R$ 7.000</td><td class="tot num" id="total-m12">—</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="quarter-detail">
-        <h3>Resumo trimestral (calculado a partir dos lançamentos)</h3>
-        <p class="qd-sub">Atingimento medido contra a meta trimestral definida na capa. Faixas destacadas indicam superação de meta (bônus aplicado).</p>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Trimestre</th>
-                <th style="text-align:right;">Meta</th>
-                <th style="text-align:right;">Recebido</th>
-                <th style="text-align:right;">% Atingido</th>
-                <th style="text-align:right;">Fixo</th>
-                <th style="text-align:right;">Comissão base</th>
-                <th style="text-align:right;">Bônus</th>
-                <th style="text-align:right;">Total do trimestre</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="real-row" id="realRowQ1">
-                <td>Q1</td>
-                <td class="tot num" id="real-q1-target">—</td>
-                <td class="tot num" id="real-q1-received">—</td>
-                <td class="tot num" id="real-q1-att">—</td>
-                <td class="tot num" id="real-q1-fixed">—</td>
-                <td class="tot num" id="real-q1-base">—</td>
-                <td class="tot num" id="real-q1-bonus">—</td>
-                <td class="tot num"><strong id="real-q1-total">—</strong></td>
-              </tr>
-              <tr class="real-row" id="realRowQ2">
-                <td>Q2</td>
-                <td class="tot num" id="real-q2-target">—</td>
-                <td class="tot num" id="real-q2-received">—</td>
-                <td class="tot num" id="real-q2-att">—</td>
-                <td class="tot num" id="real-q2-fixed">—</td>
-                <td class="tot num" id="real-q2-base">—</td>
-                <td class="tot num" id="real-q2-bonus">—</td>
-                <td class="tot num"><strong id="real-q2-total">—</strong></td>
-              </tr>
-              <tr class="real-row" id="realRowQ3">
-                <td>Q3</td>
-                <td class="tot num" id="real-q3-target">—</td>
-                <td class="tot num" id="real-q3-received">—</td>
-                <td class="tot num" id="real-q3-att">—</td>
-                <td class="tot num" id="real-q3-fixed">—</td>
-                <td class="tot num" id="real-q3-base">—</td>
-                <td class="tot num" id="real-q3-bonus">—</td>
-                <td class="tot num"><strong id="real-q3-total">—</strong></td>
-              </tr>
-              <tr class="real-row" id="realRowQ4">
-                <td>Q4</td>
-                <td class="tot num" id="real-q4-target">—</td>
-                <td class="tot num" id="real-q4-received">—</td>
-                <td class="tot num" id="real-q4-att">—</td>
-                <td class="tot num" id="real-q4-fixed">—</td>
-                <td class="tot num" id="real-q4-base">—</td>
-                <td class="tot num" id="real-q4-bonus">—</td>
-                <td class="tot num"><strong id="real-q4-total">—</strong></td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <td>Total ano</td>
-                <td class="tot num" id="real-f-target">—</td>
-                <td class="tot num" id="real-f-received">—</td>
-                <td class="tot num" id="real-f-att">—</td>
-                <td class="tot num" id="real-f-fixed">—</td>
-                <td class="tot num" id="real-f-base">—</td>
-                <td class="tot num" id="real-f-bonus">—</td>
-                <td class="tot num" id="real-f-total">—</td>
-              </tr>
-            </tfoot>
-          </table>
+      <div class="qcard-grid">
+        <div class="qcard" id="realRowQ1">
+          <div class="qcard-head"><span class="qname">Q1<span class="qbadge" id="real-q1-badge" style="display:none;">Superou</span></span><span class="qmeta">Meta<br><strong class="num" id="real-q1-target">—</strong></span></div>
+          <div class="qcard-months">
+            <div class="qmonth"><span class="mlabel">Jan</span><input type="number" class="sales-input num" data-month="1" min="0" step="1000" placeholder="0"></div>
+            <div class="qmonth"><span class="mlabel">Fev</span><input type="number" class="sales-input num" data-month="2" min="0" step="1000" placeholder="0"></div>
+            <div class="qmonth"><span class="mlabel">Mar</span><input type="number" class="sales-input num" data-month="3" min="0" step="1000" placeholder="0"></div>
+          </div>
+          <div class="qcard-summary">
+            <div class="qrow"><span>Recebido</span><strong class="num" id="real-q1-received">—</strong></div>
+            <div class="qrow"><span>% Atingido</span><strong class="num" id="real-q1-att">—</strong></div>
+            <div class="qrow"><span>Fixo</span><strong class="num" id="real-q1-fixed">—</strong></div>
+            <div class="qrow"><span>Comissão base</span><strong class="num" id="real-q1-base">—</strong></div>
+            <div class="qrow"><span>Bônus</span><strong class="num" id="real-q1-bonus">—</strong></div>
+            <div class="qrow total"><span>Total do trimestre</span><strong class="num" id="real-q1-total">—</strong></div>
+          </div>
         </div>
+        <div class="qcard" id="realRowQ2">
+          <div class="qcard-head"><span class="qname">Q2<span class="qbadge" id="real-q2-badge" style="display:none;">Superou</span></span><span class="qmeta">Meta<br><strong class="num" id="real-q2-target">—</strong></span></div>
+          <div class="qcard-months">
+            <div class="qmonth"><span class="mlabel">Abr</span><input type="number" class="sales-input num" data-month="4" min="0" step="1000" placeholder="0"></div>
+            <div class="qmonth"><span class="mlabel">Mai</span><input type="number" class="sales-input num" data-month="5" min="0" step="1000" placeholder="0"></div>
+            <div class="qmonth"><span class="mlabel">Jun</span><input type="number" class="sales-input num" data-month="6" min="0" step="1000" placeholder="0"></div>
+          </div>
+          <div class="qcard-summary">
+            <div class="qrow"><span>Recebido</span><strong class="num" id="real-q2-received">—</strong></div>
+            <div class="qrow"><span>% Atingido</span><strong class="num" id="real-q2-att">—</strong></div>
+            <div class="qrow"><span>Fixo</span><strong class="num" id="real-q2-fixed">—</strong></div>
+            <div class="qrow"><span>Comissão base</span><strong class="num" id="real-q2-base">—</strong></div>
+            <div class="qrow"><span>Bônus</span><strong class="num" id="real-q2-bonus">—</strong></div>
+            <div class="qrow total"><span>Total do trimestre</span><strong class="num" id="real-q2-total">—</strong></div>
+          </div>
+        </div>
+        <div class="qcard" id="realRowQ3">
+          <div class="qcard-head"><span class="qname">Q3<span class="qbadge" id="real-q3-badge" style="display:none;">Superou</span></span><span class="qmeta">Meta<br><strong class="num" id="real-q3-target">—</strong></span></div>
+          <div class="qcard-months">
+            <div class="qmonth"><span class="mlabel">Jul</span><input type="number" class="sales-input num" data-month="7" min="0" step="1000" placeholder="0"></div>
+            <div class="qmonth"><span class="mlabel">Ago</span><input type="number" class="sales-input num" data-month="8" min="0" step="1000" placeholder="0"></div>
+            <div class="qmonth"><span class="mlabel">Set</span><input type="number" class="sales-input num" data-month="9" min="0" step="1000" placeholder="0"></div>
+          </div>
+          <div class="qcard-summary">
+            <div class="qrow"><span>Recebido</span><strong class="num" id="real-q3-received">—</strong></div>
+            <div class="qrow"><span>% Atingido</span><strong class="num" id="real-q3-att">—</strong></div>
+            <div class="qrow"><span>Fixo</span><strong class="num" id="real-q3-fixed">—</strong></div>
+            <div class="qrow"><span>Comissão base</span><strong class="num" id="real-q3-base">—</strong></div>
+            <div class="qrow"><span>Bônus</span><strong class="num" id="real-q3-bonus">—</strong></div>
+            <div class="qrow total"><span>Total do trimestre</span><strong class="num" id="real-q3-total">—</strong></div>
+          </div>
+        </div>
+        <div class="qcard" id="realRowQ4">
+          <div class="qcard-head"><span class="qname">Q4<span class="qbadge" id="real-q4-badge" style="display:none;">Superou</span></span><span class="qmeta">Meta<br><strong class="num" id="real-q4-target">—</strong></span></div>
+          <div class="qcard-months">
+            <div class="qmonth"><span class="mlabel">Out</span><input type="number" class="sales-input num" data-month="10" min="0" step="1000" placeholder="0"></div>
+            <div class="qmonth"><span class="mlabel">Nov</span><input type="number" class="sales-input num" data-month="11" min="0" step="1000" placeholder="0"></div>
+            <div class="qmonth"><span class="mlabel">Dez</span><input type="number" class="sales-input num" data-month="12" min="0" step="1000" placeholder="0"></div>
+          </div>
+          <div class="qcard-summary">
+            <div class="qrow"><span>Recebido</span><strong class="num" id="real-q4-received">—</strong></div>
+            <div class="qrow"><span>% Atingido</span><strong class="num" id="real-q4-att">—</strong></div>
+            <div class="qrow"><span>Fixo</span><strong class="num" id="real-q4-fixed">—</strong></div>
+            <div class="qrow"><span>Comissão base</span><strong class="num" id="real-q4-base">—</strong></div>
+            <div class="qrow"><span>Bônus</span><strong class="num" id="real-q4-bonus">—</strong></div>
+            <div class="qrow total"><span>Total do trimestre</span><strong class="num" id="real-q4-total">—</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="annual-strip">
+        <div class="astat"><span class="alabel">Meta anual</span><span class="aval num" id="real-f-target">—</span></div>
+        <div class="astat"><span class="alabel">Recebido no ano</span><span class="aval num" id="real-f-received">—</span></div>
+        <div class="astat"><span class="alabel">% Atingido</span><span class="aval num" id="real-f-att">—</span></div>
+        <div class="astat"><span class="alabel">Fixo</span><span class="aval num" id="real-f-fixed">—</span></div>
+        <div class="astat"><span class="alabel">Comissão base</span><span class="aval num" id="real-f-base">—</span></div>
+        <div class="astat"><span class="alabel">Bônus</span><span class="aval num" id="real-f-bonus">—</span></div>
+        <div class="astat"><span class="alabel">Total do ano</span><span class="aval num" id="real-f-total">—</span></div>
       </div>
     </section>
 
@@ -621,6 +605,8 @@
 
       var row = document.getElementById('realRowQ' + (qi + 1));
       if (row) row.classList.toggle('over', attainment > 1);
+      var badge = document.getElementById('real-' + qKey + '-badge');
+      if (badge) badge.style.display = attainment > 1 ? 'inline-block' : 'none';
 
       realSums.target += target;
       realSums.received += received;
